@@ -48,7 +48,24 @@ let findMovies = (req,res)=>{
     });
 }
 
+let findSeries = (req,res)=>{
+    let title = req.params.title;
+    let regex = new RegExp(title,'i');
 
+    Show.find({ title: regex, type:'serie' },(err,movies)=>{
+        if(err){
+            res.status(500).send('Server Error');
+        }
+        if(res.length < 1){
+            res.status(404).send('Not Found');
+        }
+        else{
+            res.send(movies);
+        }       
+    });
+}
+
+//TODO: HACER QUE TRAIGA PAGINA DE LAS PELICULAS DEL ULTIMO AÑO
 let getMovies = (req, res) =>
 {          
     //Listar resultados
@@ -61,7 +78,9 @@ let getMovies = (req, res) =>
         },
         (err)=>{console.log(err);}
     )   
-}    
+}
+
+
 
 let createMovie = (req,res) =>
 {   
@@ -90,4 +109,4 @@ let createMovie = (req,res) =>
     ) 
 }
 
-module.exports = {getMovies, createMovie, findMovies};
+module.exports = {getMovies, createMovie, findMovies, findSeries};
