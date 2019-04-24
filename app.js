@@ -8,7 +8,7 @@ var app = express();
 
 //conectar BD
 var urlBD = process.env.urlbd || 'mongodb://localhost/pelispedio';
-//opciones conexion
+//opciones conexion 
 var opts = {useNewUrlParser : true, connectTimeoutMS:20000};
 //importo driver
 var mongoose = require('mongoose');

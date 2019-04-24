@@ -11,7 +11,25 @@ let register = (req,res)=>{
             if(user.length >= 1){
                 res.status(409).send('email already exists');
             } else{
-               res.send('arranco');
+                bcrypt.hash(body.password, 6, (err, hash) =>{
+                    if (err) {
+                        return res.status(500).send('register failed');
+                      } else {
+                        let user = new User({
+                            email : body.email,
+                            password : hash,
+                            name : body.name,
+                            lastname: body.lastname 
+                        });
+        
+                        user.save().then(result=>{
+                            res.status(200).send(result);
+                        })
+                        .catch(err=>{
+                            res.status(500).send("User could not be created");
+                        });
+                      }
+                });
             }
         });    
 }
@@ -24,7 +42,19 @@ let login = (req,res)=>{
             if (user.length < 1){
                 res.status(401).send("auth failed 1");
             }
-           res.send(arranco);
+            bcrypt.compare(body.password, user[0].password, (err, result)=>{
+                
+                if(err){
+                    res.status(401).send("auth failed 2");
+                }                
+                if(result){                    
+                    res.status(200).send("auth successful");
+                }else{
+                    console.log(result);
+                    res.status(400).send("auth failed 3");
+                }
+
+            });
         }
     );
 }
