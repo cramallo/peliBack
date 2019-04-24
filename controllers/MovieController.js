@@ -1,5 +1,7 @@
-var bodyParser = require('body-parser');
-var Movie = require('../models/Movie');
+const bodyParser = require('body-parser');
+const Movie = require('../models/Movie');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 
 let getMovies = (req, res) =>
 {          

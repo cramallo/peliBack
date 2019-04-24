@@ -7,11 +7,12 @@ var cors = require('cors');
 var app = express();
 
 //conectar BD
-var urlBD = 'mongodb://localhost/pelispedio';
+var urlBD = process.env.urlbd || 'mongodb://localhost/pelispedio';
 //opciones conexion
 var opts = {useNewUrlParser : true, connectTimeoutMS:20000};
 //importo driver
 var mongoose = require('mongoose');
+
 //Pruebo conexion
 mongoose.connect(urlBD,opts).then
 (

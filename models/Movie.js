@@ -4,12 +4,12 @@ var Schema = mongoose.Schema;
 var movieSchema = new Schema({
 
     name:{type:String,required:[true,"El nombre es requerido"]},
-    description:{type:String},
-    releaseYear:{type:String,required:false},
-    img:{type:String,required:false},
-    director:{type:String,required:false},
-    actors:{type:String,required:false},
-    generalScore:{type:Number,required:false}  
+    description:{type:String,required:false,default:""},
+    releaseYear:{type:String,required:false,default:""},
+    img:{type:String,required:false,default:""},
+    director:{type:String,required:false,default:""},
+    actors:{type:String,required:false,default:""},
+    generalScore:{type:Number,required:false,default:0}  
 
 });
 

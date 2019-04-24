@@ -2,6 +2,9 @@
 let router = require('express').Router();
 let movieController = require('./controllers/MovieController');
 let userController = require('./controllers/UserController');
+// Images for movies
+const multer = require('multer');
+const upload = multer({dest : 'uploads/'});
 
 // Set default API response
 router.get('/', function (req, res) 
@@ -20,8 +23,9 @@ router.get('/getMovies',function(req,res)
 });
 
 
-router.post('/createMovie',function(req,res)
+router.post('/createMovie',upload.single('img'),function(req,res)
 {    
+    console.log(req.file);
     movieController.createMovie(req,res);
 });
 
