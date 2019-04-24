@@ -28,8 +28,6 @@ router.get('/findMovies/:title',function(req,res)
     movieController.findMovies(req,res);
 });
 
-
-
 router.post('/createMovie',upload.single('coverSource'),function(req,res)
 {    
     console.log(req.file);

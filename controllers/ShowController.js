@@ -35,7 +35,7 @@ let findMovies = (req,res)=>{
     let title = req.params.title;
     let regex = new RegExp(title,'i');
 
-    Show.find({ title: regex },(err,movies)=>{
+    Show.find({ title: regex, type:'movie' },(err,movies)=>{
         if(err){
             res.status(500).send('Server Error');
         }
