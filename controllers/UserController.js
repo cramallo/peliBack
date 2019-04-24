@@ -10,7 +10,19 @@ let register = (req,res)=>{
             if(user.length >= 1){
                 res.status(409).send('email already exists');
             } else{
-                res.send("hola");
+                let user = new User({
+                    email : body.email,
+                    password : body.password,
+                    name : body.name,
+                    lastname: body.lastname 
+                });
+                user.save().then(result=>{
+                    res.status(200).send(result);
+                })
+                .catch(err=>{
+                    console.log(err);
+                    res.status(500).send("User could not be created");
+                });
             }
         });    
 }
@@ -23,7 +35,11 @@ let login = (req,res)=>{
             if (user.length < 1){
                 res.status(401).send("auth failed 1");
             }
-            res.send("hola");
+            if(user[0].password != body.password){
+                res.status(401).send("auth failed 2");
+            }else{
+                res.status(200).send("auth successful");
+            }            
         }
     );
 }
