@@ -1,4 +1,5 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('../app.js').bcrypt;
+
 const jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser');
 var User = require('../models/User');

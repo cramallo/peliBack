@@ -6,6 +6,10 @@ var cors = require('cors');
 // Initialize the server express
 var app = express();
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+module.exports.bcrypt = bcrypt;
+
 //conectar BD
 var urlBD = process.env.urlbd || 'mongodb://localhost/pelispedio';
 //opciones conexion 
