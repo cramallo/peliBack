@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const Show = require('../models/Show');
+const Comment = require('../models/Comment');
 const multer = require('multer');
 
 
@@ -48,6 +49,7 @@ let findMovies = (req,res)=>{
     });
 }
 
+
 let findSeries = (req,res)=>{
     let title = req.params.title;
     let regex = new RegExp(title,'i');
@@ -80,13 +82,11 @@ let getMovies = (req, res) =>
     )   
 }
 
-
-
 let createMovie = (req,res) =>
 {   
     let body = req.body;
    // console.log(req.body);
-    var newMovie = Show({
+    let newMovie = Show({
         title: body.title,
         genre: body.genre,
         type: body.type,
@@ -109,4 +109,50 @@ let createMovie = (req,res) =>
     ) 
 }
 
-module.exports = {getMovies, createMovie, findMovies, findSeries};
+//Comments
+
+let createComment = (req,res)=>{
+    let showid = req.params.showid;
+    let body = req.body;
+
+    let newComment = Comment({
+        user: body.userid,
+        show: showid,
+        score: body.score,
+        comment: body.comment,
+        date: new Date()
+    });
+
+    newComment.save().then(comment=>{
+        res.send(comment);
+    }
+    ).catch(err=>{
+        console.log(err);
+        res.status(500).send("server error");
+    });
+}
+
+let getComments = (req,res)=>{
+    var id = req.params.showid;   
+    
+    Comment.find({ show: id },(err,shows)=>{        
+        if(err){
+            console.log("error");   
+            res.status(500).send('Server error');
+        }
+        if(shows.length < 1){
+            console.log("no hay nada");            
+            res.status(404).send('Not Found');
+        }
+        else{
+            console.log("esta");
+            res.send(shows);
+        }
+    });
+}
+
+
+
+
+
+module.exports = {getMovies, createMovie, findMovies, findSeries, createComment, getComments};

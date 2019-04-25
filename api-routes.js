@@ -35,12 +35,16 @@ router.post('/createMovie',upload.single('coverSource'),function(req,res)
 });
 
 //detalle movie
-router.get('movie/:id',function(req,res){
-    
+router.get('/movies/:showid',function(req,res){
+    showController.getComments(req,res);
 });
 
-router.post('/movie/:id/comment',function(req,res){
+router.post('/movies/:showid/comment',function(req,res){
+    showController.createComment(req,res);
+});
 
+router.post('/series/:showid/comment',function(req,res){
+    showController.createComment(req,res);
 });
 
 
@@ -53,9 +57,6 @@ router.post('/register',function(req,res){
 router.post('/login',function(req,res){
     userController.login(req,res);
 });
-
-
-
 
 // Export API routes
 module.exports = router;
