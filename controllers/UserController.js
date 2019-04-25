@@ -38,7 +38,8 @@ let login = (req,res)=>{
             if(user[0].password != body.password){
                 res.status(401).send("auth failed 2");
             }else{
-                res.status(200).send("auth successful");
+                user[0].password = ':)';
+                res.status(200).send(user[0]);
             }            
         }
     );
