@@ -52,7 +52,7 @@ let findMovies = (req,res)=>{
 
 //TODO: HACER QUE TRAIGA PAGINA DE LAS PELICULAS DEL ULTIMO AÑO
 let getMovies = (req, res) =>
-{   Show.find()
+{   Show.find({type:'movie'})
     .then
     (
         (moviesList)=>
@@ -134,6 +134,19 @@ let createSerie = (req,res)=>{
     
 }
 
+//TODO: HACER QUE TRAIGA PAGINA DE LAS PELICULAS DEL ULTIMO AÑO
+let getSeries = (req, res) =>
+{   Show.find({ type: 'serie'})
+    .then
+    (
+        (series)=>
+        {
+            res.send(series);              
+        },
+        (err)=>{console.log(err);}
+    );   
+}
+
 
 //COMMENTS
 
@@ -159,7 +172,9 @@ let createComment = (req,res)=>{
 }
 
 let getComments = (req,res)=>{
-    var id = req.params.showid;   
+    var id = req.params.showid;  
+    
+    console.log("entroooo");
     
     Comment.find({ show: id },(err,shows)=>{        
         if(err){
@@ -181,4 +196,4 @@ let getComments = (req,res)=>{
 
 
 
-module.exports = {getMovies, createMovie, findMovies, createSerie, findSeries, createComment, getComments};
+module.exports = {getMovies, createMovie, findMovies, createSerie, getSeries, findSeries, createComment, getComments};

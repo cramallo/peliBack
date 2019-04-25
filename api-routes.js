@@ -36,7 +36,7 @@ router.post('/movies',upload.single('coverSource'),function(req,res)
 });
 
 //EndPoint para obtener los comentarios de una pelicula
-router.get('/movies/:showid',function(req,res){
+router.get('/movies/:showid/comments',function(req,res){
     showController.getComments(req,res);
 });
 
@@ -47,6 +47,12 @@ router.post('/movies/:showid/comment',function(req,res){
 
 
 //SERIES
+
+//EndPoint para leer toda la base de series
+router.get('/getSeries',function(req,res)
+{    
+    showController.getSeries(req,res);
+});
 
 //EndPoint para buscar series por titulo
 router.get('/series/:title',function(req,res)
@@ -62,7 +68,7 @@ router.post('/series',upload.single('coverSource'),function(req,res)
 });
 
 //EndPoint para obtener los comentarios de una serie
-router.get('/series/:showid',function(req,res){
+router.get('/series/:showid/comments',function(req,res){
     showController.getComments(req,res);
 });
 
