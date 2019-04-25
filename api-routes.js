@@ -23,30 +23,53 @@ router.get('/getMovies',function(req,res)
 });
 
 //EndPoint para buscar peliculas
-router.get('/findMovies/:title',function(req,res)
+router.get('/movies/:title',function(req,res)
 {    
     showController.findMovies(req,res);
 });
 
-router.post('/createMovie',upload.single('coverSource'),function(req,res)
+//EndPoint para crear peliculas
+router.post('/movies',upload.single('coverSource'),function(req,res)
 {    
     console.log(req.file);
     showController.createMovie(req,res);
 });
 
-//detalle movie
+//EndPoint para obtener los comentarios de una pelicula
 router.get('/movies/:showid',function(req,res){
     showController.getComments(req,res);
 });
 
+//EndPoint para crear un comentario de una pelicula
 router.post('/movies/:showid/comment',function(req,res){
     showController.createComment(req,res);
 });
 
+
+//SERIES
+
+//EndPoint para buscar series por titulo
+router.get('/series/:title',function(req,res)
+{    
+    showController.findSeries(req,res);
+});
+
+//EndPoint para crear series
+router.post('/series',upload.single('coverSource'),function(req,res)
+{    
+    console.log(req.file);
+    showController.createMovie(req,res);
+});
+
+//EndPoint para obtener los comentarios de una serie
+router.get('/series/:showid',function(req,res){
+    showController.getComments(req,res);
+});
+
+//EndPoint para crear un comentario en una serie
 router.post('/series/:showid/comment',function(req,res){
     showController.createComment(req,res);
 });
-
 
 //USER
 

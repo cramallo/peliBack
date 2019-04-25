@@ -28,9 +28,10 @@ const storage = multer.diskStorage({
       fileSize: 1024 * 1024 * 5
     },
     fileFilter: fileFilter
-  });
-  
+  });  
 
+
+//MOVIES
 
 let findMovies = (req,res)=>{
     let title = req.params.title;
@@ -49,43 +50,23 @@ let findMovies = (req,res)=>{
     });
 }
 
-
-let findSeries = (req,res)=>{
-    let title = req.params.title;
-    let regex = new RegExp(title,'i');
-
-    Show.find({ title: regex, type:'serie' },(err,movies)=>{
-        if(err){
-            res.status(500).send('Server Error');
-        }
-        if(res.length < 1){
-            res.status(404).send('Not Found');
-        }
-        else{
-            res.send(movies);
-        }       
-    });
-}
-
 //TODO: HACER QUE TRAIGA PAGINA DE LAS PELICULAS DEL ULTIMO AÑO
 let getMovies = (req, res) =>
-{          
-    //Listar resultados
-    Show.find()
+{   Show.find()
     .then
     (
         (moviesList)=>
         {
-            res.send(moviesList); //devuelvo resultado query              
+            res.send(moviesList);              
         },
         (err)=>{console.log(err);}
-    )   
+    );   
 }
 
 let createMovie = (req,res) =>
 {   
     let body = req.body;
-   // console.log(req.body);
+   
     let newMovie = Show({
         title: body.title,
         genre: body.genre,
@@ -109,7 +90,52 @@ let createMovie = (req,res) =>
     ) 
 }
 
-//Comments
+
+//SERIES
+
+let findSeries = (req,res)=>{
+    let title = req.params.title;
+    let regex = new RegExp(title,'i');
+
+    Show.find({ title: regex, type:'serie' },(err,movies)=>{
+        if(err){
+            res.status(500).send('Server Error');
+        }
+        if(res.length < 1){
+            res.status(404).send('Not Found');
+        }
+        else{
+            res.send(movies);
+        }       
+    });
+}
+
+let createSerie = (req,res)=>{
+    let body = req.body;
+
+    let newSerie = Show({
+        title: body.title,
+        genre: body.genre,
+        type: body.type,
+        coverSource: body.coverSource,
+        score: body.score,
+        year: body.year,   
+        director: body.director,
+        duration: body.duration,
+        description: body.description,   
+        actors: body.actors
+    });
+
+    newSerie.save().then(serie=>{
+        res.status(200).send(serie);
+    }).catch(err=>{
+        res.status(500).send("Internal server error");
+    });
+    
+}
+
+
+//COMMENTS
 
 let createComment = (req,res)=>{
     let showid = req.params.showid;
@@ -124,11 +150,11 @@ let createComment = (req,res)=>{
     });
 
     newComment.save().then(comment=>{
-        res.send(comment);
+        res.status(200).send(comment);
     }
     ).catch(err=>{
         console.log(err);
-        res.status(500).send("server error");
+        res.status(500).send("Internal server error");
     });
 }
 
@@ -155,4 +181,4 @@ let getComments = (req,res)=>{
 
 
 
-module.exports = {getMovies, createMovie, findMovies, findSeries, createComment, getComments};
+module.exports = {getMovies, createMovie, findMovies, createSerie, findSeries, createComment, getComments};
