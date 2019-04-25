@@ -3,7 +3,6 @@ const Show = require('../models/Show');
 const Comment = require('../models/Comment');
 const multer = require('multer');
 
-
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
       cb(null, './uploads/');
@@ -173,7 +172,7 @@ let createComment = (req,res)=>{
 
 let getComments = (req,res)=>{
     var id = req.params.showid;  
-    
+
     console.log("entroooo");
     
     Comment.find({ show: id },(err,shows)=>{        
@@ -191,9 +190,5 @@ let getComments = (req,res)=>{
         }
     });
 }
-
-
-
-
 
 module.exports = {getMovies, createMovie, findMovies, createSerie, getSeries, findSeries, createComment, getComments};
