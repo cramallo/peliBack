@@ -3,16 +3,18 @@ var Schema = mongoose.Schema;
 
 var showSchema = new Schema({
 
-    title: { type:String,required:[true,"The title is required"] },
-    genre: { type:Array,required:[true,"The genre is required"] },
-    type: { type: String, required:[true,"the type is required"] },
-    coverSource: { type:String,required:false,default:"" },
-    score: { type:Number,required:false,default:0 },
-    year: { type:String,required:false,default:"" },   
-    director: { type:String,required:false,default:"" },
-    duration: { type: Number, required:true },
-    description: { type:String,required:false,default:"" },   
-    actors: { type:Array,required:false,default:"" },
+    Title: { type:String,required:[true,"The title is required"] },
+    Genre: { type:String,required:[true,"The genre is required"] },
+    Type: { type:String,required:[true,"the type is required"] }, // movie o series
+    Poster: { type:String,required:false,default:"" },
+    Score: { type:Number,required:false,default:0 },
+    NumberOfScores:{ type:Number},
+    Year: { type:String,required:false,default:"" },   
+    Director: { type:String,required:false,default:"" },
+    Runtime: { type:String, required:true },
+    Plot: { type:String,required:false,default:"" },   
+    Actors: { type:String,required:false,default:"" },
+
 
 });
 

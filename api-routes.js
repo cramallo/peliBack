@@ -2,9 +2,6 @@
 let router = require('express').Router();
 let showController = require('./controllers/ShowController');
 let userController = require('./controllers/UserController');
-// Images for movies
-const multer = require('multer');
-const upload = multer({dest : 'uploads/'});
 
 // Set default API response
 router.get('/', function (req, res) 
@@ -29,9 +26,8 @@ router.get('/movies/:title',function(req,res)
 });
 
 //EndPoint para crear peliculas
-router.post('/movies',upload.single('coverSource'),function(req,res)
-{    
-    console.log(req.file);
+router.post('/movies',function(req,res)
+{        
     showController.createMovie(req,res);
 });
 
@@ -61,9 +57,8 @@ router.get('/series/:title',function(req,res)
 });
 
 //EndPoint para crear series
-router.post('/series',upload.single('coverSource'),function(req,res)
-{    
-    console.log(req.file);
+router.post('/series',function(req,res)
+{       
     showController.createMovie(req,res);
 });
 
@@ -87,9 +82,24 @@ router.post('/login',function(req,res){
     userController.login(req,res);
 });
 
+//EndPoint para obtener la informacion basica del usuario
+router.post('/profile',function(req,res){
+    userController.getUserData(req,res);
+});
+
+
+//EndPoint para modificar contraseña
+router.put('/profile'),function(req,res){  
+    console.log("hollaaa");
+    userController.changePassword(req,res);
+}
+
+//EndPoint para obtener las peliculas comentadas por el usuario
 router.get('/profile/activity',function(req,res){
     userController.getMoviesCommented(req,res);
 });
+
+
 
 // Export API routes
 module.exports = router;
