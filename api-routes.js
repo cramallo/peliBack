@@ -87,5 +87,9 @@ router.post('/login',function(req,res){
     userController.login(req,res);
 });
 
+router.get('/profile/activity',function(req,res){
+    userController.getMoviesCommented(req,res);
+});
+
 // Export API routes
 module.exports = router;

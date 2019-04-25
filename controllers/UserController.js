@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
-var bodyParser = require('body-parser');
-var User = require('../models/User');
+const bodyParser = require('body-parser');
+const User = require('../models/User');
+const Comment = require('../models/Comment');
 
 let register = (req,res)=>{
     var body = req.body;
@@ -45,4 +46,18 @@ let login = (req,res)=>{
     );
 }
 
-module.exports = { register,login }
+//Get the movies commented by the user logued
+let getMoviesCommented = (req,res)=>{
+    let userid = req.body.userid;
+
+    Comment.find({user:userid}).populate('show').exec(
+        (err,comments)=>{
+            if(err){
+                res.send('Internal server error');
+            }
+            res.send(comments);
+        }
+    );
+}
+
+module.exports = { register,login, getMoviesCommented }
