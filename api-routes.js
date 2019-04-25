@@ -89,10 +89,10 @@ router.post('/profile',function(req,res){
 
 
 //EndPoint para modificar contraseña
-router.put('/profile'),function(req,res){  
+router.put('/profile',function(req,res){  
     console.log("hollaaa");
     userController.changePassword(req,res);
-}
+});
 
 //EndPoint para obtener las peliculas comentadas por el usuario
 router.get('/profile/activity',function(req,res){

@@ -50,8 +50,8 @@ let login = (req,res)=>{
 
 let changePassword = (req,res)=>{
     let body = req.body;
-    let oldPassword = body.oldPassword;
-    let newPassword = body.newPassword;
+    let oldPassword = body.oldpassword;
+    let newPassword = body.newpassword;
     let userid = body.userid;
 
     User.findById(userid,(err,user)=>{
@@ -63,6 +63,8 @@ let changePassword = (req,res)=>{
         }
         else{
             if(oldPassword != user.password){
+                console.log(oldPassword);
+                console.log(user.password);
                 res.status(400).send('Wrong password');
             }else{
                 user.password = newPassword;
