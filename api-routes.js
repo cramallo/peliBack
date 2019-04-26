@@ -28,7 +28,7 @@ router.get('/movies/:title',function(req,res)
 //EndPoint para crear peliculas
 router.post('/movies',function(req,res)
 {        
-    showController.createMovie(req,res);
+    showController.createShow(req,res);
 });
 
 //EndPoint para obtener los comentarios de una pelicula
@@ -40,7 +40,6 @@ router.get('/movies/:showid/comments',function(req,res){
 router.post('/movies/:showid/comment',function(req,res){
     showController.createComment(req,res);
 });
-
 
 //SERIES
 
@@ -59,7 +58,7 @@ router.get('/series/:title',function(req,res)
 //EndPoint para crear series
 router.post('/series',function(req,res)
 {       
-    showController.createMovie(req,res);
+    showController.createShow(req,res);
 });
 
 //EndPoint para obtener los comentarios de una serie

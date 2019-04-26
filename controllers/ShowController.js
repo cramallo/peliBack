@@ -28,6 +28,8 @@ let getMovies = (req, res) =>
     );   
 }
 
+
+//TODO: SACAR ESTO
 let createMovie = (req,res) =>
 {   
     let body = req.body;
@@ -72,6 +74,8 @@ let findSeries = (req,res)=>{
     });
 }
 
+
+// TODO: SACAR ESTO
 let createSerie = (req,res)=>{
     let body = req.body;
 
@@ -96,9 +100,36 @@ let createSerie = (req,res)=>{
     });    
 }
 
+let createShow = (req,res)=>{
+    let body = req.body;
+
+    let newShow = Show({
+        Title: body.title,
+        Genre: body.genre,
+        Type: body.type, // movie o series
+        Poster: body.poster,
+        Score: 0,
+        Year: body.year,   
+        Director: body.director,
+        Runtime: body.runtime,
+        Plot: body.plot,   
+        Actors: body.actors,
+        NumberOfScores: 0
+    });
+
+    newShow.save().then(show=>{
+        res.status(200).send(show);
+    }).catch(err=>{
+        res.status(500).send("Internal server error");
+    });    
+}
+
+
 //TODO: HACER QUE TRAIGA PAGINA DE LAS PELICULAS DEL ULTIMO AÑO
 let getSeries = (req, res) =>
-{   Show.find({ Type: 'series'})
+{   
+    console.log(String(new Date().getFullYear()));
+    Show.find({ Type: 'series'})
     .then
     (
         (series)=>
@@ -111,32 +142,6 @@ let getSeries = (req, res) =>
 
 
 //COMMENTS
-
-let sacaraa = (req,res)=>{
-    let showid = req.params.showid;
-    let body = req.body;    
-
-    let newComment = Comment({
-        user: body.userid,
-        show: showid,
-        score: body.score,
-        comment: body.comment,
-        date: new Date()
-    });
-
-    newComment.save().then(comment=>{
-        res.status(200).send(comment);
-
-        //Update the general score of the show
-
-
-
-    }
-    ).catch(err=>{
-        console.log(err);
-        res.status(500).send("Internal server error");
-    });
-}
 
 let createComment = (req,res)=>{
     let showid = req.params.showid;   
@@ -195,4 +200,4 @@ let getComments = (req,res)=>{
     });
 }
 
-module.exports = {getMovies, createMovie, findMovies, createSerie, getSeries, findSeries, createComment, getComments};
+module.exports = {createShow, getMovies, findMovies, getSeries, findSeries, createComment, getComments};
