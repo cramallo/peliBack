@@ -116,7 +116,8 @@ let getUserData = (req,res) =>{
             let object = {
                 email : user.email,
                 name : user.name,
-                lastname : user.lastname
+                lastname : user.lastname,
+                userid: user._id
             };
             user.password = ":)";
             res.status(200).send(object);
