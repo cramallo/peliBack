@@ -89,17 +89,14 @@ router.post('/profile',function(req,res){
 
 
 //EndPoint para modificar contraseña
-router.put('/profile',function(req,res){  
-    console.log("hollaaa");
+router.put('/profile',function(req,res){      
     userController.changePassword(req,res);
 });
 
 //EndPoint para obtener las peliculas comentadas por el usuario
-router.get('/profile/activity',function(req,res){
+router.post('/profile/activity',function(req,res){
     userController.getMoviesCommented(req,res);
 });
-
-
 
 // Export API routes
 module.exports = router;

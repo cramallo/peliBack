@@ -16,7 +16,6 @@ let findMovies = (req,res)=>{
     });
 }
 
-//TODO: HACER QUE TRAIGA PAGINA DE LAS PELICULAS DEL ULTIMO AÑO
 let getMovies = (req, res) =>
 {   Show.find({Type:'movie'})
     .then

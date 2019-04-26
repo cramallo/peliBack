@@ -62,9 +62,7 @@ let changePassword = (req,res)=>{
             res.status(404).send('User not found');
         }
         else{
-            if(oldPassword != user.password){
-                console.log(oldPassword);
-                console.log(user.password);
+            if(oldPassword != user.password){               
                 res.status(400).send('Wrong password');
             }else{
                 user.password = newPassword;
