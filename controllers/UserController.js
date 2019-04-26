@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const User = require('../models/User');
 const Comment = require('../models/Comment');
-let bcrypt  = require('bcryptjs');
-let salt    = bcrypt.genSaltSync(10);
+let bcrypt = require('bcryptjs');
+let salt = bcrypt.genSaltSync(10);
 
 let register = (req,res)=>{
     var body = req.body;
@@ -103,9 +103,9 @@ let changePassword = (req,res)=>{
 }
 
 let getUserData = (req,res) =>{
-    let userid = req.body.userid;
+    let email = req.body.email;
 
-    User.findById(userid,(err,user)=>{
+    User.findById(email,(err,user)=>{
         if(err){
             res.status(500).send('Internal server error');
         }

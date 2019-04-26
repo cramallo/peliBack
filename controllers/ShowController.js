@@ -183,7 +183,7 @@ let createComment = (req,res)=>{
                         
                         show.save((err,updatedshow)=>{
                             if(err){                               
-                                res.status(500).send('Internal server error 1');
+                                res.status(500).send('Internal server error');
                             }else{
                                 res.status(200).send(comment);
                             }
@@ -191,12 +191,12 @@ let createComment = (req,res)=>{
                     }
                     ).catch(err=>{
                         console.log(err);
-                        res.status(500).send("Internal server error 2");
+                        res.status(500).send("Internal server error");
                     });
             
                 }).catch(
                     err=>{
-                        res.status(500).send('Internal server error 3');
+                        res.status(500).send('Internal server error');
                     }
                 );            
             }else{
