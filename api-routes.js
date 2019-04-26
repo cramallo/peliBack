@@ -81,6 +81,11 @@ router.post('/login',function(req,res){
     userController.login(req,res);
 });
 
+//EndPoint para verificar si el email existe
+router.post('/verifyEmail',function(req,res){    
+    userController.verifyEmail(req,res);
+});
+
 //EndPoint para obtener la informacion basica del usuario
 router.post('/profile',function(req,res){
     userController.getUserData(req,res);

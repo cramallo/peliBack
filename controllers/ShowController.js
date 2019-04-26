@@ -200,7 +200,7 @@ let createComment = (req,res)=>{
                     }
                 );            
             }else{
-                res.status(400).send("The user have already commented the movie");
+                res.status(409).send("The user have already commented the movie");
             }
         }
     });    

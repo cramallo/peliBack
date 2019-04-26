@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const User = require('../models/User');
 const Comment = require('../models/Comment');
+let bcrypt  = require('bcryptjs');
+let salt    = bcrypt.genSaltSync(10);
 
 let register = (req,res)=>{
     var body = req.body;
@@ -13,11 +15,12 @@ let register = (req,res)=>{
             } else{
                 let user = new User({
                     email : body.email,
-                    password : body.password,
+                    password : bcrypt.hashSync(body.password,salt),
                     name : body.name,
                     lastname: body.lastname 
                 });
                 user.save().then(result=>{
+                    result.password = ":)";
                     res.status(200).send(result);
                 })
                 .catch(err=>{
@@ -28,6 +31,18 @@ let register = (req,res)=>{
         });    
 }
 
+let verifyEmail = (req,res) =>{
+    let email = req.body.email;
+
+    User.find({email:email},(err,users)=>{
+        if(err){
+            res.status(500).send("Internal server error");
+        }else{
+            res.status(200).send(users);
+        }
+    });
+}
+
 let login = (req,res)=>{
     let body = req.body;
 
@@ -36,11 +51,14 @@ let login = (req,res)=>{
             if (user.length < 1){
                 res.status(401).send("auth failed");
             }
-            if(user[0].password != body.password){
-                res.status(401).send("auth failed");
-            }else{
+            if(bcrypt.compareSync(body.password, user[0].password)){
+            //if(user[0].password != body.password){
+                //res.status(401).send("auth failed");
                 user[0].password = ':)';
                 res.status(200).send(user[0]);
+            }else{
+                //user[0].password = ':)';                
+                res.status(401).send("auth failed");//res.status(200).send(user[0]);
             }            
         }
     ).catch(err=>{
@@ -62,10 +80,11 @@ let changePassword = (req,res)=>{
             res.status(404).send('User not found');
         }
         else{
-            if(oldPassword != user.password){               
+            if(!bcrypt.compareSync(oldPassword, user.password)){
+            //if(oldPassword != user.password){               
                 res.status(400).send('Wrong password');
             }else{
-                user.password = newPassword;
+                user.password = bcrypt.hashSync(newPassword,salt);
                 user.save((error,modifieduser)=>{
                     if(error){
                         res.status(500).send('Internal server error');
@@ -100,6 +119,8 @@ let getUserData = (req,res) =>{
     });
 }
 
+
+
 //Get the movies commented by the user logued
 let getMoviesCommented = (req,res)=>{
     let userid = req.body.userid;
@@ -114,4 +135,4 @@ let getMoviesCommented = (req,res)=>{
     );
 }
 
-module.exports = {register,login,getUserData,getMoviesCommented,changePassword}
+module.exports = {register,login,getUserData,getMoviesCommented,changePassword,verifyEmail}
