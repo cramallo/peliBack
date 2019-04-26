@@ -113,14 +113,16 @@ let getUserData = (req,res) =>{
             res.status(404).send('User not found');
         }
         else{
+            let object = {
+                email : user.email,
+                name : user.name,
+                lastname : user.lastname
+            };
             user.password = ":)";
-            res.status(200).send(user);
+            res.status(200).send(object);
         }
     });
 }
-
-
-
 //Get the movies commented by the user logued
 let getMoviesCommented = (req,res)=>{
     let userid = req.body.userid;
