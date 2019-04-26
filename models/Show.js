@@ -14,8 +14,8 @@ var showSchema = new Schema({
     Runtime: { type:String, required:true },
     Plot: { type:String,required:false,default:"" },   
     Actors: { type:String,required:false,default:"" },
-    imdbID: { type:String,required:true }
-    
+    imbdID: { type:String,required:true }
+
 });
 
 module.exports = mongoose.model('Show',showSchema);

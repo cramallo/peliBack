@@ -93,14 +93,20 @@ let createSerie = (req,res)=>{
         NumberOfScores: 0
     });
 
-    newSerie.save().then(serie=>{
+    newSerie.save().then((serie)=>{
         res.status(200).send(serie);
-    }).catch(err=>{
+    },
+    (err)=>{
+        res.status(400).send("Error");
+    }
+
+    ).catch(err=>{
         res.status(500).send("Internal server error");
     });    
 }
 
 let createShow = (req,res)=>{
+
     let body = req.body;
 
     let newShow = Show({
@@ -114,14 +120,15 @@ let createShow = (req,res)=>{
         Runtime: body.runtime,
         Plot: body.plot,   
         Actors: body.actors,
-        NumberOfScores: 0
+        NumberOfScores: 0,
+        imbdID: body.imbdID
     });
 
     newShow.save().then(show=>{
         res.status(200).send(show);
     }).catch(err=>{
         res.status(500).send("Internal server error");
-    });    
+    });     
 }
 
 
@@ -134,10 +141,14 @@ let getSeries = (req, res) =>
     (
         (series)=>
         {
-            res.send(series);              
+            res.status(200).send(series);              
         },
-        (err)=>{console.log(err);}
-    );   
+        (err)=>{
+            res.status(400).send("Error");
+        }
+    ).catch(err=>{
+        res.status(500).send("Error");
+    });   
 }
 
 
@@ -145,43 +156,54 @@ let getSeries = (req, res) =>
 
 let createComment = (req,res)=>{
     let showid = req.params.showid;   
-    let body = req.body;   
+    let body = req.body;      
 
-    Show.findById({_id:showid}).then(show=>{
+    Comment.find({user:body.userid,show:showid},(err,comments)=>{        
+        if(err){            
+            res.status(500).send("Internal server error");
+        }else{
+            //If the user didn't comment the movie
+            if(comments.length<1){
+                Show.findById({_id:showid}).then(show=>{
 
-        //Create the comment
-        let newComment = Comment({
-            user: body.userid,
-            show: showid,
-            score: body.score,
-            comment: body.comment,
-            date: new Date()
-        });
-
-        newComment.save().then(comment=>{            
-
-            //Update the general score of the show
-            show.NumberOfScores+=1;
-            show.Score = (show.Score + body.score) / show.NumberOfScores;
+                    //Create the comment
+                    let newComment = Comment({
+                        user: body.userid,
+                        show: showid,
+                        score: body.score,
+                        comment: body.comment,
+                        date: new Date()
+                    });
             
-            show.save((err,updatedshow)=>{
-                if(err){
-                    res.status(500).send('Internal server error 1');
-                }else{
-                    res.status(200).send(comment);
-                }
-            });           
+                    newComment.save().then(comment=>{            
+            
+                        //Update the general score of the show
+                        show.NumberOfScores+=1;
+                        show.Score = (show.Score + body.score) / show.NumberOfScores;
+                        
+                        show.save((err,updatedshow)=>{
+                            if(err){                               
+                                res.status(500).send('Internal server error 1');
+                            }else{
+                                res.status(200).send(comment);
+                            }
+                        });           
+                    }
+                    ).catch(err=>{
+                        console.log(err);
+                        res.status(500).send("Internal server error 2");
+                    });
+            
+                }).catch(
+                    err=>{
+                        res.status(500).send('Internal server error 3');
+                    }
+                );            
+            }else{
+                res.status(400).send("The user have already commented the movie");
+            }
         }
-        ).catch(err=>{
-            console.log(err);
-            res.status(500).send("Internal server error 2");
-        });
-
-    }).catch(
-       err=>{
-           res.send(500).send('Internal server error 3');
-       }
-    );
+    });    
 }
 
 let getComments = (req,res)=>{
