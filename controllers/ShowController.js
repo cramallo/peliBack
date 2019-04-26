@@ -209,7 +209,7 @@ let createComment = (req,res)=>{
 let getComments = (req,res)=>{
     var id = req.params.showid;      
     
-    Comment.find({ show: id },(err,shows)=>{        
+    Comment.find({ show: id }).populate('user','_id, name, lastname, email').exec((err,shows)=>{        
         if(err){             
             res.status(500).send('Server error');
         }
