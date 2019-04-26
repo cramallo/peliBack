@@ -213,12 +213,7 @@ let getComments = (req,res)=>{
         if(err){             
             res.status(500).send('Server error');
         }
-        if(shows.length < 1){                       
-            res.status(404).send('Not Found');
-        }
-        else{            
-            res.send(shows);
-        }
+       res.send(shows);
     });
 }
 
