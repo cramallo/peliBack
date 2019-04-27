@@ -105,7 +105,7 @@ let changePassword = (req,res)=>{
 let getUserData = (req,res) =>{
     let email = req.body.email;
 
-    User.findOne(email,(err,user)=>{
+    User.findOne({email:email},(err,user)=>{
         if(err){
             res.status(500).send('Internal server error');
         }
