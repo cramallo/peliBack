@@ -158,18 +158,23 @@ let createComment = (req,res)=>{
     let showid = req.params.showid;   
     let body = req.body;      
 
-    Comment.find({user:body.userid,show:showid},(err,comments)=>{        
-        if(err){            
+    Comment.find({user:body.userid,imbdID:showid},(err,comments)=>{        
+        if(err){      
+            console.log("chau");      
+            console.log(err);
+
             res.status(500).send("Internal server error");
         }else{
             //If the user didn't comment the movie
             if(comments.length<1){
-                Show.findById({_id:showid}).then(show=>{
-
+                //antes usaba finbyid y pasaba _id
+                Show.findOne({imbdID:showid}).then(show=>{
+                    console.log("hola");
                     //Create the comment
                     let newComment = Comment({
                         user: body.userid,
-                        show: showid,
+                        imbdID: showid,
+                        show: show._id,
                         score: body.score,
                         comment: body.comment,
                         date: new Date()
@@ -207,10 +212,14 @@ let createComment = (req,res)=>{
 }
 
 let getComments = (req,res)=>{
+    console.log("habia una");
+
     var id = req.params.showid;      
+    console.log("habia una vez");
     
-    Comment.find({ show: id }).populate('user','_id, name, lastname, email').exec((err,shows)=>{        
+    Comment.find({ imbdID: id }).populate('user','_id, name, lastname, email').exec((err,shows)=>{        
         if(err){             
+            console.log(error);
             res.status(500).send('Server error');
         }
        res.send(shows);

@@ -5,6 +5,7 @@ var commentSchema = new Schema({
     
     user: { type: Schema.Types.ObjectId, ref:'User', unique:true },
     show: { type: Schema.Types.ObjectId, ref:'Show', required:[true,'the movie id is required'], unique:true},
+    imbdID:{ type:String},
     score: { type: Number, required:[true,"the score is required"] },
     comment: { type: String },
     date: { type:String }
