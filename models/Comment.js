@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var commentSchema = new Schema({
     
-    user: { type: Schema.Types.ObjectId, ref:'User'},
+    user: { type: Schema.Types.ObjectId, ref:'User',required:[true,'the user id is required']},
     show: { type: Schema.Types.ObjectId, ref:'Show', required:[true,'the movie id is required']},
     imbdID:{ type:String},
     score: { type: Number, required:[true,"the score is required"] },
@@ -12,4 +12,4 @@ var commentSchema = new Schema({
     
 });
 
-  module.exports = mongoose.model('Comment',commentSchema);
+module.exports = mongoose.model('Comment',commentSchema);
