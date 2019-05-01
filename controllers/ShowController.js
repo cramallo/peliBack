@@ -121,7 +121,7 @@ let createShow = (req,res)=>{
         Plot: body.plot,   
         Actors: body.actors,
         NumberOfScores: 0,
-        imbdID: body.imbdID
+        imdbID: body.imdbID
     });
 
     newShow.save().then(show=>{
@@ -158,7 +158,7 @@ let createComment = (req,res)=>{
     let showid = req.params.showid;   
     let body = req.body;      
 
-    Comment.find({user:body.userid,imbdID:showid},(err,comments)=>{        
+    Comment.find({user:body.userid,imdbID:showid},(err,comments)=>{        
         if(err){      
             console.log("chau");      
             console.log(err);
@@ -168,12 +168,12 @@ let createComment = (req,res)=>{
             //If the user didn't comment the movie
             if(comments.length<1){
                 //antes usaba finbyid y pasaba _id
-                Show.findOne({imbdID:showid}).then(show=>{
+                Show.findOne({imdbID:showid}).then(show=>{
                     console.log("hola");
                     //Create the comment
                     let newComment = Comment({
                         user: body.userid,
-                        imbdID: showid,
+                        imdbID: showid,
                         show: show._id,
                         score: body.score,
                         comment: body.comment,
@@ -214,7 +214,7 @@ let createComment = (req,res)=>{
 let getComments = (req,res)=>{
     var id = req.params.showid;      
     
-    Comment.find({ imbdID: id }).populate('user','_id, name, lastname, email').exec((err,shows)=>{        
+    Comment.find({ imdbID: id }).populate('user','_id, name, lastname, email').exec((err,shows)=>{        
         if(err){             
             console.log(error);
             res.status(500).send('Server error');
