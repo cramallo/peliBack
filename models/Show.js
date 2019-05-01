@@ -14,7 +14,7 @@ var showSchema = new Schema({
     Runtime: { type:String, required:true },
     Plot: { type:String,required:false,default:"" },   
     Actors: { type:String,required:false,default:"" },
-    imbdID: { type:String,required:true }
+    imdbID: { type:String,required:true }
 
 });
 
