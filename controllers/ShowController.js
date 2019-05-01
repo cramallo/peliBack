@@ -212,10 +212,7 @@ let createComment = (req,res)=>{
 }
 
 let getComments = (req,res)=>{
-    console.log("habia una");
-
     var id = req.params.showid;      
-    console.log("habia una vez");
     
     Comment.find({ imbdID: id }).populate('user','_id, name, lastname, email').exec((err,shows)=>{        
         if(err){             

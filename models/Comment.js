@@ -12,11 +12,4 @@ var commentSchema = new Schema({
     
 });
 
-commentSchema.index({
-    user: 1,
-    show: 1,
-  }, {
-    unique: true,
-  });
-
-module.exports = mongoose.model('Comment',commentSchema);
+  module.exports = mongoose.model('Comment',commentSchema);
